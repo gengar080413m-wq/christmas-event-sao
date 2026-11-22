@@ -10,24 +10,43 @@
      navegador ignore el texto viejo que tenía guardado.
    · editable:false → la carta es solo lectura (sin campos de escritura). */
 const LETTER_CONFIG = {
-  version: 1,
+  version: 3,
   editable: true,
   to: '',
   from: '',
-  message:
-`Querido/a amigo/a:
+    message:
+`¡Feliz Navidad, mamá! ❤️
 
-En esta Navidad quiero que sepas que, sin importar qué tan lejos estemos o cuántos mundos nos separen, siempre serás un recuerdo muy especial para mí.
+Antes que nada, quiero agradecerte por hacer que cada Navidad sea especial para nosotros.
 
-Gracias por cada aventura, cada risa y cada momento compartido. Que esta temporada esté llena de luz, paz y cosas bonitas.
+Aunque vayamos creciendo, siempre encuentras la manera de consentirnos, sorprendernos y hacer que estas fechas sigan teniendo esa magia de cuando éramos pequeños.
 
-¡Feliz Navidad!`,
+Sé que detrás de cada regalo y cada detalle hay mucho esfuerzo, tiempo y cariño. Quiero que sepas que valoro muchísimo todo lo que haces por nosotros, incluso esas cosas que a veces pasan desapercibidas.
+
+Gracias por trabajar tanto, por preocuparte por nosotros y por buscar siempre la manera de vernos felices. Sé que no todo es fácil y que haces muchos esfuerzos para darnos lo mejor. Nunca quiero que pienses que no los vemos o que no los agradecemos.
+
+Y bueno... como nos preguntaste qué queríamos de Navidad, yo estuve pensando y hay algo que me gustaría mucho:
+
+🎁 XP-Pen Deco 640
+
+Mi regalo que me gustaría recibir:
+https://articulo.mercadolibre.com.mx/MLM-3141375431-xppen-deco-640-tableta-grafica-6x4-pulgadas-con-16k-niveles-_JM
+
+Es algo que me haría mucha ilusión y que aprovecharía bastante.
+
+Pero quiero que sepas que, más allá de cualquier regalo, estoy muy agradecido por tenerte y por todo lo que haces por nosotros.
+
+Espero que esta Navidad también sea especial para ti, porque tú mereces tanta felicidad como la que siempre buscas darnos.
+
+Te quiero mucho, mamá.
+
+¡Feliz Navidad! ❤️`,
 };
 
 /* --- Música de fondo (instrumental) ---
    Coloca tu archivo en  audio/musica-sao.mp3  (o cambia `src`). */
 const MUSIC_CONFIG = {
-  src: 'audio/musica-sao.mp3',
+  src: 'audio/musica-sao.mp4',
   volume: 0.6,
   loop: true,
   label: 'AINCRAD · BGM',
@@ -1046,7 +1065,24 @@ const HUD_CONFIG = {
         p.style.setProperty('--n', i);
         para.split('\n').forEach((line, j) => {
           if (j) p.appendChild(document.createElement('br'));
-          p.appendChild(document.createTextNode(line));
+          const url = line.trim();
+
+if (/^https?:\/\/\S+$/.test(url)) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.textContent = '🎁 Ver mi regalo en Mercado Libre';
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+
+  a.style.color = '#55baff';
+  a.style.textDecoration = 'underline';
+  a.style.fontWeight = 'bold';
+  a.style.cursor = 'pointer';
+
+  p.appendChild(a);
+} else {
+  p.appendChild(document.createTextNode(line));
+}
         });
         readEl.appendChild(p);
       });
@@ -1226,6 +1262,9 @@ const HUD_CONFIG = {
   /* --- 2) clic en el cristal --- */
   async function unlock() {
     if (phase !== 'ready') return;
+
+     Music.start();
+
     phase = 'unlocking';
 
     const r = gemBtn.getBoundingClientRect();
@@ -1264,7 +1303,7 @@ const HUD_CONFIG = {
     phase = 'transition';
     typeRun++; // detiene el tecleo si seguía en curso
     openBtn.classList.add('is-fired'); // destello al hacer clic
-    Music.start(); // la música comienza al abrir la carta (dentro del clic del usuario)
+    // la música comienza al abrir la carta (dentro del clic del usuario)
     typed.textContent = 'A special memory has arrived.';
     FX.burst(window.innerWidth / 2, window.innerHeight / 2, 36);
     Tilt.reset();
