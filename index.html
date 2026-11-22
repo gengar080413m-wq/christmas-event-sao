@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#030a1c">
+  <title>Christmas Event · System Notification</title>
+
+  <!-- Tipografías (opcionales: si no hay internet se usan Bahnschrift / Segoe UI de Windows 11) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&display=swap" rel="stylesheet">
+
+  <script>document.documentElement.classList.add('js-loading');</script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ============ Definiciones SVG reutilizables (gema, iconos) ============ -->
+  <svg class="svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Degradados de las facetas del cristal -->
+      <linearGradient id="gA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c9ecff"/><stop offset="1" stop-color="#46a3ff"/></linearGradient>
+      <linearGradient id="gB" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#93d8ff"/><stop offset="1" stop-color="#2f8cff"/></linearGradient>
+      <linearGradient id="gC" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#63b6ff"/><stop offset="1" stop-color="#1647cf"/></linearGradient>
+      <linearGradient id="gD" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9ee0ff"/><stop offset="1" stop-color="#2a6cf0"/></linearGradient>
+      <linearGradient id="gE" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2468e6"/><stop offset="1" stop-color="#0a1f7c"/></linearGradient>
+      <linearGradient id="gF" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f8bff"/><stop offset="1" stop-color="#0c2c96"/></linearGradient>
+      <linearGradient id="gShine" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+      <radialGradient id="glowBlue"><stop offset="0" stop-color="#5fb0ff" stop-opacity=".55"/><stop offset="1" stop-color="#2f8cff" stop-opacity="0"/></radialGradient>
+
+      <!-- Facetas del cristal -->
+      <linearGradient id="mtn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d4390"/><stop offset=".6" stop-color="#0c2150"/></linearGradient>
+      <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#10306e"/><stop offset=".5" stop-color="#081a42"/></linearGradient>
+      <symbol id="gem-facets" viewBox="0 0 200 280">
+        <g stroke="rgba(255,255,255,.8)" stroke-width="1.3" stroke-linejoin="round">
+          <polygon points="100,6 34,118 100,100"   fill="url(#gA)"/>
+          <polygon points="100,6 166,118 100,100"  fill="url(#gB)"/>
+          <polygon points="34,118 100,100 100,170" fill="url(#gC)"/>
+          <polygon points="166,118 100,100 100,170" fill="url(#gD)"/>
+          <polygon points="34,118 100,170 100,274" fill="url(#gE)"/>
+          <polygon points="166,118 100,170 100,274" fill="url(#gF)"/>
+        </g>
+        <polygon points="100,6 138,66 100,100" fill="#fff" opacity=".32"/>
+        <polygon points="100,170 100,274 128,206" fill="#7fd4ff" opacity=".18"/>
+        <!-- reflejos internos -->
+        <g fill="none" stroke="#fff" stroke-opacity=".45" stroke-width=".8"><path d="M66,62 L134,62 M52,118 L148,118 M100,6 L100,274"/></g>
+        <polygon points="100,40 128,118 100,200 72,118" fill="#fff" fill-opacity=".1"/>
+        <polygon points="60,118 100,100 100,150" fill="#fff" fill-opacity=".14"/>
+      </symbol>
+
+      <!-- Iconos -->
+      <symbol id="i-snow" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path id="snow-arm" d="M12 12V2.2M9.4 4.6L12 7l2.6-2.4"/>
+          <use href="#snow-arm" transform="rotate(60 12 12)"/>
+          <use href="#snow-arm" transform="rotate(120 12 12)"/>
+          <use href="#snow-arm" transform="rotate(180 12 12)"/>
+          <use href="#snow-arm" transform="rotate(240 12 12)"/>
+          <use href="#snow-arm" transform="rotate(300 12 12)"/>
+        </g>
+      </symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24">
+        <path d="M12 1c.8 6.2 4.8 10.2 11 11-6.2.8-10.2 4.8-11 11-.8-6.2-4.8-10.2-11-11C7.2 11.2 11.2 7.2 12 1z" fill="currentColor"/>
+      </symbol>
+      <symbol id="i-tree" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M12 2.5l4.6 6.5h-2.4l3.8 5.6h-3.2L18 20H6l3.8-5.4H6.6L10.4 9H8z"/>
+          <path d="M12 20v2.5"/>
+        </g>
+      </symbol>
+      <symbol id="i-crystal" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
+          <path d="M12 2l6 8-6 12-6-12z"/><path d="M6 10h12M12 2v20" opacity=".6"/>
+        </g>
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24">
+        <path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+      <!-- Aincrad: castillo flotante en capas (silueta de pisos) -->
+      <symbol id="i-aincrad" viewBox="0 0 24 24">
+        <g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M12 1.5v3M10.2 4.5h3.6l.8 2.7H9.4zM8.6 7.2h6.8l1 2.8H7.6zM2.5 10h19l-2 2.6H4.5zM4.5 12.6L12 22.5l7.5-9.9"/>
+          <path d="M8 12.6l4 5.2 4-5.2" opacity=".55"/>
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ============ Escena de fondo ============ -->
+  <div id="scene" aria-hidden="true">
+    <!-- CAPA 1 · Cielo, estrellas y auroras -->
+    <canvas id="stars" class="stars"></canvas>
+    <canvas id="stars2" class="stars stars2"></canvas>
+    <!-- Destellos de estrellas, estrellas fugaces y nieve del plano más lejano (canvas) -->
+    <canvas id="fx-sky" class="fx-plane"></canvas>
+    <div class="aurora"></div>
+    <div class="aurora-ribbons"><i></i><i></i><i></i></div>
+
+    <!-- CAPA 2 · Luna y Aincrad -->
+    <div class="moon"></div>
+    <div class="godrays" aria-hidden="true"></div>
+    <div class="clouds"><i></i><i></i><i></i></div>
+    <div class="sprite-layer aincrad-layer" data-depth="6">
+      <!-- Nubes bajo el castillo: se quedan en el cielo mientras Aincrad flota sobre ellas -->
+      <div class="am-sky am-back" aria-hidden="true"><i class="am-band b1"></i><i class="am-band b2"></i></div>
+      <!-- Flotación: tres capas con periodos distintos (vertical · lateral · perspectiva) → movimiento orgánico sin repetición evidente -->
+      <div class="aincrad-float af-y"><div class="af-x"><div class="af-p">
+        <div class="aincrad-halo"></div>
+        <div class="aincrad-under" aria-hidden="true"></div>
+        <img class="aincrad" src="imagenes/estructuras/aincrad.png" alt="" draggable="false">
+        <div class="aincrad-lights" aria-hidden="true"><i style="--x:35%;--y:55%;--d:6.5s;--dl:-0s"></i><i style="--x:56%;--y:56%;--d:8s;--dl:-2.4s"></i><i style="--x:72%;--y:57%;--d:7s;--dl:-4.1s"></i><i style="--x:22%;--y:54%;--d:9s;--dl:-1.2s"></i><i style="--x:33%;--y:68%;--d:7.5s;--dl:-5.3s"></i><i style="--x:49%;--y:36%;--d:10s;--dl:-3.3s"></i><i style="--x:62%;--y:31%;--d:8.5s;--dl:-6.1s"></i><i style="--x:15%;--y:84%;--d:9.5s;--dl:-7.2s"></i></div>
+        <div class="aincrad-motes" aria-hidden="true"><i style="--x:18%;--y:70%;--s:0.9;--d:7s;--dl:-0s"></i><i style="--x:30%;--y:82%;--s:1.2;--d:9s;--dl:-3s"></i><i style="--x:42%;--y:90%;--s:0.8;--d:8s;--dl:-5s"></i><i style="--x:55%;--y:86%;--s:1.1;--d:10s;--dl:-1s"></i><i style="--x:66%;--y:76%;--s:0.9;--d:7.5s;--dl:-4s"></i><i style="--x:76%;--y:64%;--s:1.3;--d:11s;--dl:-6s"></i><i style="--x:24%;--y:58%;--s:0.7;--d:8.5s;--dl:-2s"></i><i style="--x:48%;--y:66%;--s:1;--d:9.5s;--dl:-7s"></i><i style="--x:60%;--y:94%;--s:0.8;--d:7s;--dl:-3.5s"></i><i style="--x:36%;--y:96%;--s:0.9;--d:10s;--dl:-8s"></i><i style="--x:82%;--y:52%;--s:0.8;--d:8s;--dl:-5.5s"></i><i style="--x:12%;--y:50%;--s:0.7;--d:9s;--dl:-1.5s"></i></div>
+        <!-- Marcador holográfico (estilo mapa del juego) -->
+        <div class="aincrad-tag">
+          <i class="at-br tl"></i><i class="at-br tr"></i><i class="at-br bl"></i><i class="at-br brr"></i>
+          <span class="at-line"></span>
+          <span class="at-label"><b>AINCRAD</b><em>FLOATING CASTLE · 100 FLOORS</em></span>
+        </div>
+      </div></div></div>
+      <div class="am-sky am-front" aria-hidden="true"><i class="am-band b3"></i></div>
+    </div>
+
+    <!-- (legado) montañas e isla dibujadas en SVG, detrás de las imágenes -->
+    <svg class="land" data-depth="8" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+      <path d="M0,900 L0,600 L180,520 L300,570 L480,470 L620,560 L800,500 L980,575 L1160,480 L1330,560 L1480,500 L1600,560 L1600,900Z" fill="#14306c" opacity=".5"/>
+      <path d="M0,900 L0,640 L110,590 L200,630 L320,520 L420,600 L510,545 L640,640 L770,570 L890,630 L1000,540 L1120,610 L1240,525 L1370,620 L1480,560 L1600,620 L1600,900Z" fill="url(#mtn)" opacity=".95"/>
+      <!-- isla grande con castillo -->
+      <g class="legacy-castle" display="none" transform="translate(930,90) scale(1.3)">
+        <ellipse cx="130" cy="40" rx="230" ry="95" fill="url(#glowBlue)"/>
+        <g class="bob">
+          <path d="M0,62 Q10,40 42,38 L218,38 Q250,40 260,62 L226,96 L190,152 L152,232 L130,262 L108,226 L80,152 L40,94 Z" fill="#0b1f4f" stroke="#4a9bff" stroke-opacity=".4" stroke-width="1.2"/>
+          <g fill="#0a1a45">
+            <rect x="95" y="0" width="14" height="40"/><polygon points="92,0 102,-28 112,0"/>
+            <rect x="125" y="-18" width="18" height="58"/><polygon points="121,-18 134,-54 147,-18"/>
+            <rect x="160" y="8" width="12" height="32"/><polygon points="157,8 166,-16 175,8"/>
+            <rect x="60" y="14" width="40" height="26"/><rect x="172" y="16" width="38" height="24"/>
+            <rect x="40" y="24" width="18" height="16"/><polygon points="38,24 49,4 60,24"/><rect x="212" y="22" width="16" height="18"/><polygon points="210,22 220,2 230,22"/><rect x="144" y="-34" width="8" height="20"/><polygon points="142,-34 148,-62 154,-34"/>
+          </g>
+          <g fill="#9fdcff">
+            <rect x="130" y="-4" width="3" height="5"/><rect x="130" y="12" width="3" height="5"/>
+            <rect x="100" y="12" width="2.5" height="4"/><rect x="165" y="18" width="2.5" height="4"/>
+            <rect x="72" y="22" width="3" height="4"/><rect x="190" y="26" width="3" height="4"/>
+          </g>
+          <g fill="#ffd27a"><rect x="130" y="24" width="3" height="4"/><rect x="44" y="30" width="2.5" height="4"/><rect x="218" y="30" width="2.5" height="4"/><rect x="148" y="-42" width="2.5" height="4"/>
+          </g>
+        </g>
+      </g>
+      <!-- isla pequeña -->
+      <g class="legacy-island" display="none" transform="translate(560,260) scale(.45)">
+        <ellipse cx="130" cy="40" rx="230" ry="95" fill="url(#glowBlue)"/>
+        <g class="bob bob-2">
+          <path d="M0,62 Q10,40 42,38 L218,38 Q250,40 260,62 L226,96 L190,152 L152,232 L130,262 L108,226 L80,152 L40,94 Z" fill="#0b1f4f"/>
+          <g fill="#0a1a45"><rect x="118" y="-10" width="16" height="50"/><polygon points="114,-10 126,-46 138,-10"/><rect x="86" y="10" width="30" height="30"/></g>
+          <g fill="#9fdcff"><rect x="124" y="2" width="3" height="5"/><rect x="96" y="20" width="3" height="5"/></g>
+        </g>
+      </g>
+    </svg>
+
+    <!-- CAPA 3 · Montañas y nubes -->
+    <div class="sprite-layer" data-depth="14"><img class="montanas" src="imagenes/montanas/montanas.png" alt="" draggable="false"></div>
+    <!-- Nieve lejana (plano 2) y niebla sobre las montañas -->
+    <canvas id="fx-far" class="fx-plane"></canvas>
+    <div class="fog-wrap fog-far-w" data-depth="12"><div class="fog" style="--fd:170s;--fo:.55"></div></div>
+
+    <!-- CAPA 4 · Bosque de pinos pequeños (lo genera script.js → buildForest) -->
+    <div id="forest-back" class="sprite-layer forest-back" data-depth="18"></div>
+
+    <!-- (legado) colinas oscuras en SVG; las siluetas de pinos planos se ocultan -->
+    <svg class="land" data-depth="16" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+      <defs>
+        <pattern id="pineBack" x="0" y="640" width="60" height="110" patternUnits="userSpaceOnUse">
+          <polygon points="30,0 44,30 37,30 51,58 42,58 58,92 32,92 32,110 28,110 28,92 2,92 18,58 9,58 23,30 16,30" fill="#071a3e"/>
+        </pattern>
+      </defs>
+      <rect class="legacy-pines" display="none" x="0" y="640" width="1600" height="110" fill="url(#pineBack)"/>
+      <path d="M0,900 L0,700 C160,650 280,690 400,665 C540,635 640,705 800,690 C940,675 1040,630 1190,665 C1330,698 1470,650 1600,680 L1600,900Z" fill="url(#hill)"/>
+    </svg>
+
+    <!-- Capa cercana: bosque frontal -->
+    <svg class="land" data-depth="28" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+      <defs>
+        <pattern id="pineFront" x="22" y="672" width="74" height="136" patternUnits="userSpaceOnUse">
+          <polygon points="37,0 55,38 46,38 64,72 53,72 72,114 41,114 41,136 33,136 33,114 2,114 21,72 10,72 28,38 19,38" fill="#030c24"/>
+        </pattern>
+      </defs>
+      <rect class="legacy-pines" display="none" x="0" y="672" width="1600" height="136" fill="url(#pineFront)"/>
+      <path d="M0,900 L0,790 C210,750 380,790 580,772 C780,752 930,805 1130,780 C1320,756 1460,795 1600,770 L1600,900Z" fill="#030c24"/>
+    </svg>
+
+    <!-- CAPA 4b · Segunda fila del bosque (cubre las colinas) -->
+    <div id="forest-row" class="sprite-layer forest-back forest-row" data-depth="22"></div>
+    <!-- Nieve media (plano 3) y niebla entre los pinos -->
+    <canvas id="fx-mid" class="fx-plane"></canvas>
+    <div class="fog-wrap fog-mid-w" data-depth="24"><div class="fog fog-rev" style="--fd:130s;--fo:.5"></div></div>
+
+    <!-- CAPA 5 · Pinos medianos y rocas -->
+    <div class="sprite-layer forest-mid" data-depth="26">
+      <img class="tree m-a" src="imagenes/pinos/pino-mediano-1.png" alt="" draggable="false">
+      <img class="tree m-b" src="imagenes/pinos/pino-mediano-2.png" alt="" draggable="false">
+      <img class="tree m-c" src="imagenes/pinos/pino-mediano-2.png" alt="" draggable="false">
+      <img class="tree m-d" src="imagenes/pinos/pino-mediano-1.png" alt="" draggable="false">
+      <img class="rocas" src="imagenes/montanas/rocas.png" alt="" draggable="false">
+    </div>
+
+    <!-- CAPA 6 · Pinos grandes en primer plano -->
+    <div class="sprite-layer forest-front" data-depth="38">
+      <img class="pino pino-l" src="imagenes/pinos/pino-grande-1.png" alt="" draggable="false">
+      <img class="pino pino-r" src="imagenes/pinos/pino-grande-1.png" alt="" draggable="false">
+    </div>
+
+    <div class="fog-wrap fog-near-w" data-depth="40"><div class="fog" style="--fd:100s;--fo:.6"></div></div>
+    <div class="mist"></div>
+  </div>
+
+  <!-- Iluminación dinámica: la luz de la gema se refleja en el paisaje (la mueve script.js) -->
+  <div id="env-wash" class="env env-wash" aria-hidden="true"></div>
+  <div id="env-glow" class="env env-glow" aria-hidden="true"></div>
+  <div id="env-floor" class="env env-floor" aria-hidden="true"></div>
+
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- Partículas, nieve cercana y destellos (canvas) -->
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <!-- Etalonaje de color + grano de película + velo para ventanas -->
+  <div class="grade" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+
+  <!-- ============ HUD estilo Aincrad ============ -->
+  <div id="hud" class="hud" aria-hidden="true">
+    <i class="hf tl"></i><i class="hf tr"></i><i class="hf bl"></i><i class="hf br"></i>
+    <i class="hud-ticks t"></i><i class="hud-ticks b"></i>
+
+    <div class="hud-tl">
+      <svg class="hud-emblem"><use href="#i-aincrad"/></svg>
+      <div class="hud-id">
+        <span class="hud-name" id="hud-name">AINCRAD</span>
+        <span class="hud-sub" id="hud-zone">FLOOR 22 · FOREST OF SNOW</span>
+        <span class="hud-gauge"><em>LINK</em><i class="seg-bar"><b></b></i><em class="hud-pct">STABLE</em></span>
+      </div>
+    </div>
+
+    <div class="hud-tr">
+      <span class="hud-clock" id="hud-clock">--:--:--</span>
+      <span class="hud-sub">XMAS EVENT · <span id="hud-temp">-12°C</span> · SNOWFALL</span>
+    </div>
+
+    <div class="hud-floors">
+      <span class="hf-top">100</span>
+      <i class="hf-rail"><b class="hf-mark" id="hud-floor-mark"><em id="hud-floor">22</em></b></i>
+      <span class="hf-bot">01</span>
+    </div>
+
+    <div class="hud-radar"><i class="rd-sweep"></i><i class="rd-blip b1"></i><i class="rd-blip b2"></i><i class="rd-blip b3"></i></div>
+    <p class="hud-br">XMAS-<span class="year"></span> // SERVER STABLE</p>
+  </div>
+
+  <!-- ============ Cristal ============ -->
+  <main id="stage">
+    <div id="gem-wrap" class="gem-wrap">
+      <div class="rays" aria-hidden="true"></div>
+      <div class="pillar" aria-hidden="true"></div>
+      <div class="gem-aura" aria-hidden="true"></div>
+      <div class="beams" aria-hidden="true"></div>
+      <div class="rings" aria-hidden="true"><i></i><i></i><i></i></div>
+
+      <!-- CAPA 7 · Plataforma, anillos y cristales -->
+      <div class="plat-rings" aria-hidden="true">
+        <img class="pr pr1" src="imagenes/interfaz/aro-hud.png" alt="" draggable="false">
+        <img class="pr pr2" src="imagenes/interfaz/aro-hud.png" alt="" draggable="false">
+      </div>
+      <div class="plat-pulse" aria-hidden="true"><i></i><i></i></div>
+      <img class="platform" src="imagenes/cristales/plataforma.png" alt="" aria-hidden="true" draggable="false">
+      <!-- Reflejo de la gema sobre la plataforma -->
+      <img class="gem-reflect" src="imagenes/cristales/cristal.png" alt="" aria-hidden="true" draggable="false" onerror="this.remove()">
+      <img class="frag f1" src="imagenes/cristales/fragmento-1.png" alt="" aria-hidden="true" draggable="false">
+      <img class="frag f2" src="imagenes/cristales/fragmento-2.png" alt="" aria-hidden="true" draggable="false">
+      <img class="frag f3" src="imagenes/cristales/fragmento-3.png" alt="" aria-hidden="true" draggable="false">
+      <img class="frag f4" src="imagenes/cristales/fragmento-3.png" alt="" aria-hidden="true" draggable="false">
+
+      <div class="gem-float">
+        <div class="orbit" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <span class="gem-flare" aria-hidden="true"></span>
+        <button id="gem" class="gem" type="button" disabled aria-label="Tocar el cristal para abrir el evento de Navidad">
+          <svg class="gem-svg" viewBox="0 0 200 280" aria-hidden="true">
+            <use href="#gem-facets"/>
+            <clipPath id="gemClip"><polygon points="100,6 166,118 100,274 34,118"/></clipPath>
+            <g clip-path="url(#gemClip)">
+              <g transform="rotate(18 100 140)"><rect class="shine" x="-70" y="-40" width="46" height="360" fill="url(#gShine)"/></g>
+            </g>
+          </svg>
+          <img id="gem-img" class="gem-img" alt="" hidden>
+          <!-- Refracción, reflejos internos, pulsos y aberración cromática: los dibuja script.js (GemFX)
+               recortados con la silueta real de cristal.png -->
+          <canvas id="gem-fx" class="gem-fx" aria-hidden="true"></canvas>
+        </button>
+        <!-- Retícula de enfoque (estilo HUD) -->
+        <span class="lock" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <svg class="spk spk-1" aria-hidden="true"><use href="#i-spark"/></svg>
+        <svg class="spk spk-2" aria-hidden="true"><use href="#i-spark"/></svg>
+        <svg class="spk spk-3" aria-hidden="true"><use href="#i-spark"/></svg>
+      </div>
+
+      <p class="hint" aria-hidden="true"><span>Toca el cristal</span></p>
+    </div>
+  </main>
+
+  <div id="flash" class="flash" aria-hidden="true"></div>
+
+  <!-- ============ Ventana 1 · System Notification ============ -->
+  <section id="notice" class="holo win win-notice" role="dialog" aria-modal="true" aria-labelledby="notice-title" tabindex="-1" hidden>
+    <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+    <div class="win-skin" aria-hidden="true"></div>
+    <span class="win-ping" aria-hidden="true"></span>
+    <span class="sheen" aria-hidden="true"></span>
+    <span class="notice-badge" aria-hidden="true"><svg><use href="#i-snow"/></svg></span>
+    <span class="deco d-ruler" aria-hidden="true"></span>
+    <span class="deco d-top" aria-hidden="true"></span><span class="deco d-bot" aria-hidden="true"></span>
+    <span class="deco d-l" aria-hidden="true"></span><span class="deco d-r" aria-hidden="true"></span>
+    <span class="deco d-pips" aria-hidden="true"><i></i><i></i><i></i></span>
+
+    <header class="win-bar">
+      <svg class="ico" aria-hidden="true"><use href="#i-crystal"/></svg>
+      <span class="bar-title">SYSTEM NOTIFICATION</span>
+      <span class="spacer"></span>
+      <span class="leds" aria-hidden="true"><i></i><i></i><i></i></span>
+    </header>
+
+    <div class="win-body notice-body">
+      <div class="ornament reveal" style="--i:0" aria-hidden="true">
+        <svg class="o-ico"><use href="#i-snow"/></svg><span class="line"></span>
+        <svg class="o-ico o-spark"><use href="#i-spark"/></svg><span class="line"></span>
+        <svg class="o-ico"><use href="#i-snow"/></svg>
+      </div>
+
+      <h2 id="notice-title" class="notice-title reveal" style="--i:1">CHRISTMAS EVENT</h2>
+
+      <p class="notice-text reveal" style="--i:2">
+        <span class="sr-only">A special memory has arrived.</span>
+        <span id="notice-text" aria-hidden="true"></span><i class="caret" aria-hidden="true"></i>
+      </p>
+
+      <div class="reveal" style="--i:3">
+        <button id="open-memory" class="sao-btn" type="button">
+          <span class="br" aria-hidden="true">[</span> OPEN MEMORY <span class="br" aria-hidden="true">]</span>
+        </button>
+      </div>
+
+      <div class="sys-load reveal" style="--i:4" aria-hidden="true"><span>UNLOCK</span><i class="bar"><b></b></i><span>100%</span></div>
+
+      <p class="sys-line reveal" style="--i:5" aria-hidden="true">EVENT ID · XMAS-<span class="year"></span> &nbsp;//&nbsp; STATUS · UNLOCKED</p>
+    </div>
+  </section>
+
+  <!-- ============ Ventana 2 · Carta de Navidad ============ -->
+  <section id="letter" class="holo win win-letter" role="dialog" aria-modal="true" aria-labelledby="letter-title" tabindex="-1" hidden>
+    <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+    <span class="trace" aria-hidden="true"></span>
+    <span class="win-ping" aria-hidden="true"></span>
+    <span class="sheen" aria-hidden="true"></span>
+    <span class="rail" aria-hidden="true"></span>
+    <span class="bauble b1" aria-hidden="true"></span>
+    <span class="bauble b2" aria-hidden="true"></span>
+    <span class="bauble b3" aria-hidden="true"></span>
+    <svg class="deco-snow" aria-hidden="true"><use href="#i-snow"/></svg>
+
+    <header class="win-bar">
+      <svg class="ico ico-gold" aria-hidden="true"><use href="#i-tree"/></svg>
+      <span class="bar-title">MEMORY · CHRISTMAS LETTER</span>
+      <span class="spacer"></span>
+      <button id="close-x" class="bar-x" type="button" aria-label="Cerrar carta">
+        <svg aria-hidden="true"><use href="#i-x"/></svg>
+      </button>
+    </header>
+
+    <div class="win-body letter-body">
+      <div class="letter-head reveal" style="--i:0">
+        <p class="letter-meta" aria-hidden="true"><svg><use href="#i-aincrad"/></svg><span>MEMORY RESTORED · XMAS-<span class="year"></span></span></p>
+        <img class="letter-bow" src="imagenes/decoraciones/mono.png" alt="" draggable="false">
+        <h2 id="letter-title">Feliz Navidad</h2>
+        <div class="ornament ornament-gold" aria-hidden="true">
+          <span class="line"></span>
+          <svg class="o-ico"><use href="#i-snow"/></svg>
+          <svg class="o-ico o-spark"><use href="#i-spark"/></svg>
+          <svg class="o-ico"><use href="#i-snow"/></svg>
+          <span class="line"></span>
+        </div>
+      </div>
+
+      <div class="field field-to reveal" style="--i:1">
+        <label class="f-label" for="letter-to">PARA</label>
+        <input id="letter-to" class="f-input" type="text" maxlength="60" placeholder="Nombre" autocomplete="off">
+      </div>
+
+      <div class="field reveal" style="--i:2">
+        <label id="letter-msg-label" class="f-label" for="letter-msg">MENSAJE · puedes editarlo</label>
+        <div class="f-area-wrap is-reading" id="letter-wrap">
+          <textarea id="letter-msg" class="f-input f-area" rows="6" maxlength="1500" placeholder="Escribe aquí tu mensaje…" spellcheck="true"></textarea>
+          <!-- Vista de lectura: mismo texto con párrafos bien espaciados. Al hacer clic se edita el textarea. -->
+          <div id="letter-read" class="f-read" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="field field-from reveal" style="--i:3">
+        <label class="f-label" for="letter-from">DE</label>
+        <input id="letter-from" class="f-input" type="text" maxlength="60" placeholder="Tu nombre" autocomplete="off">
+      </div>
+    </div>
+
+    <footer class="win-foot">
+      <span id="save-status" class="save" role="status" aria-live="polite"><i class="dot"></i><span id="save-text">AUTO-SAVE ON</span></span>
+      <button id="close-letter" class="sao-btn sao-btn--sm" type="button">
+        <span class="br" aria-hidden="true">[</span> CLOSE <span class="br" aria-hidden="true">]</span>
+      </button>
+    </footer>
+  </section>
+
+  <!-- ============ Reabrir la carta ============ -->
+  <button id="reopen" class="reopen" type="button" aria-label="Abrir la carta de nuevo" hidden>
+    <span class="reopen-gem">
+      <span class="reopen-aura" aria-hidden="true"></span>
+      <svg viewBox="0 0 200 280" aria-hidden="true"><use href="#gem-facets"/></svg>
+    </span>
+    <span class="reopen-label">OPEN MEMORY</span>
+  </button>
+
+  <!-- ============ Secuencia "recuerdo desbloqueado" (entre la notificación y la carta) ============ -->
+  <div id="mseq" class="mseq" aria-hidden="true" hidden>
+    <i class="mseq-bar t"></i><i class="mseq-bar b"></i>
+    <div class="mseq-core">
+      <div class="mseq-ring"><i></i><i></i><i></i><svg><use href="#i-aincrad"/></svg></div>
+      <p class="mseq-title">MEMORY RESTORED</p>
+      <p class="mseq-sub">RECOVERING FRAGMENT <b id="mseq-n">1</b> / 3</p>
+      <div class="sys-load mseq-load"><span>RESTORE</span><i class="bar"><b id="mseq-bar"></b></i><span id="mseq-pct">0%</span></div>
+    </div>
+    <img class="mseq-frag q1" src="imagenes/cristales/fragmento-1.png" alt="" draggable="false">
+    <img class="mseq-frag q2" src="imagenes/cristales/fragmento-2.png" alt="" draggable="false">
+    <img class="mseq-frag q3" src="imagenes/cristales/fragmento-3.png" alt="" draggable="false">
+  </div>
+
+  <!-- ============ Audio ============ -->
+  <!-- El archivo se define en MUSIC_CONFIG (script.js) y solo se pide al abrir la carta -->
+  <audio id="music" preload="none"></audio>
+
+  <div id="audio-panel" class="audio" data-state="paused" hidden>
+    <button id="audio-toggle" class="audio-btn" type="button" aria-label="Pausar música" title="Pausar / reanudar música">
+      <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z"/></svg>
+      <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6L19 12z"/></svg>
+    </button>
+    <span class="audio-meta">
+      <span id="audio-label" class="audio-label">BGM</span>
+      <span class="audio-bar" aria-hidden="true"><i id="audio-progress"></i></span>
+    </span>
+    <input id="audio-vol" class="audio-vol" type="range" min="0" max="1" step="0.05" value="0.6" aria-label="Volumen de la música">
+  </div>
+
+  <noscript>
+    <p class="noscript">Esta experiencia necesita JavaScript activado para funcionar.</p>
+  </noscript>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
